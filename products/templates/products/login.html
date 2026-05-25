@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Yap - Hepsiburada Kopyası</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hb-color { color: #ff6000; }
+        .hb-bg { background-color: #ff6000; color: white; border: none; }
+        .hb-bg:hover { background-color: #e55600; color: white; }
+        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ced4da; border-radius: 5px; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-light bg-white shadow-sm mb-5 py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3 hb-color" href="{% url 'home' %}">hepsiburada</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 p-4">
+                    <h3 class="text-center fw-bold mb-4">Giriş Yap</h3>
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn hb-bg w-100 fw-bold py-2 mt-3">Giriş Yap</button>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <a href="{% url 'register' %}" class="text-decoration-none text-muted">Hesabın yok mu? <span class="hb-color fw-bold">Kayıt Ol</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

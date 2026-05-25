@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sepetim - Hepsiburada Kopyası</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hb-color { color: #ff6000; }
+        .hb-bg { background-color: #ff6000; color: white; border: none; }
+        .hb-bg:hover { background-color: #e55600; color: white; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4 py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3 hb-color" href="{% url 'home' %}">hepsiburada</a>
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary">Alışverişe Dön</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="fw-bold mb-4">Alışveriş Sepetim</h2>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        {% if cart_items %}
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th>Fiyat</th>
+                                        <th>Adet</th>
+                                        <th>Toplam</th>
+                                        <th>İşlem</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in cart_items %}
+                                    <tr>
+                                        <td>
+                                            {% if item.product.image %}
+                                                <img src="{{ item.product.image.url }}" alt="ürün" style="width: 50px; height: 50px; object-fit: contain;" class="me-2">
+                                            {% endif %}
+                                            <strong>{{ item.product.name }}</strong>
+                                        </td>
+                                        <td>{{ item.product.price }} TL</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td class="fw-bold hb-color">{{ item.subtotal }} TL</td>
+                                        
+                                        <td>
+                                            <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-danger fw-bold">Sil</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <h4 class="text-muted">Sepetiniz şu an boş.</h4>
+                                <p>Sepetinizi Hepsiburada'nın fırsatlarla dolu dünyasından doldurmak için ana sayfaya dönebilirsiniz.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if cart_items %}
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="fw-bold mb-4">Sipariş Özeti</h4>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Ürünlerin Toplamı</span>
+                            <strong>{{ total_price }} TL</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 text-success">
+                            <span>Kargo</span>
+                            <strong>Bedava</strong>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4 fs-4 fw-bold hb-color">
+                            <span>Ödenecek Tutar</span>
+                            <span>{{ total_price }} TL</span>
+                        </div>
+                        <a href="{% url 'checkout' %}" class="btn hb-bg w-100 fw-bold fs-5 py-2 text-decoration-none text-center">Alışverişi Tamamla</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>
